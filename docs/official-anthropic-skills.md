@@ -1,6 +1,6 @@
 # Official Anthropic Skills
 
-本仓库已从官方仓库同步一组适合你的 Anthropic skills。
+本仓库已从官方仓库同步一组适合你的 Anthropic skills。用户后来要求精简，因此只保留文档处理、skill 创建和网页测试相关的官方 skills。
 
 官方仓库：<https://github.com/anthropics/skills>
 
@@ -12,18 +12,20 @@
 - `pptx`：创建、编辑、分析 PowerPoint 演示文稿。
 - `xlsx`：创建、编辑、分析 Excel 表格。
 - `webapp-testing`：测试本地网页应用。
-- `frontend-design`：前端设计与界面质量提升。
-- `brand-guidelines`：围绕品牌规范生成或调整内容。
-- `theme-factory`：生成和管理主题风格。
-- `claude-api`：使用 Claude API。
-- `mcp-builder`：构建 MCP 服务器或工具集成。
+
+## 已按用户要求删除
+
+- `brand-guidelines`
+- `claude-api`
+- `frontend-design`
+- `mcp-builder`
+- `theme-factory`
 
 ## 为什么适合你
 
 - 你正在搭建可迁移的 AI 工作流仓库，`skill-creator` 很关键。
 - 你有资料整理、知识库、repo 对比、提示词沉淀需求，`docx`、`pdf`、`pptx`、`xlsx` 很实用。
-- 你已有网页设计和视频演示类 skill，`webapp-testing`、`frontend-design`、`theme-factory` 可以补上官方结构参考和验证能力。
-- 你后续可能会做自动化工具或 API 项目，`claude-api`、`mcp-builder` 值得保留。
+- 你已有网页设计和视频演示类 skill，`webapp-testing` 可以补上验证能力。
 
 ## 官方 Claude Code 安装方式
 
@@ -53,11 +55,6 @@ Copy-Item -Recurse -Force work\anthropics-skills\skills\pptx skills\pptx
 Copy-Item -Recurse -Force work\anthropics-skills\skills\xlsx skills\xlsx
 Copy-Item -Recurse -Force work\anthropics-skills\skills\skill-creator skills\skill-creator
 Copy-Item -Recurse -Force work\anthropics-skills\skills\webapp-testing skills\webapp-testing
-Copy-Item -Recurse -Force work\anthropics-skills\skills\frontend-design skills\frontend-design
-Copy-Item -Recurse -Force work\anthropics-skills\skills\brand-guidelines skills\brand-guidelines
-Copy-Item -Recurse -Force work\anthropics-skills\skills\theme-factory skills\theme-factory
-Copy-Item -Recurse -Force work\anthropics-skills\skills\claude-api skills\claude-api
-Copy-Item -Recurse -Force work\anthropics-skills\skills\mcp-builder skills\mcp-builder
 ```
 
 ## 同步原则

@@ -10,22 +10,28 @@
 │  ├─ global.md
 │  └─ github-repo-search.md
 ├─ skills/
-│  ├─ brand-guidelines/
-│  ├─ claude-api/
+│  ├─ arxiv/
+│  ├─ claude-design/
 │  ├─ docx/
-│  ├─ frontend-design/
 │  ├─ gpt-image-2/
+│  ├─ humanizer/
+│  ├─ ideation/
+│  ├─ jupyter-live-kernel/
 │  ├─ kb-retriever/
-│  ├─ mcp-builder/
 │  ├─ pdf/
+│  ├─ plan/
+│  ├─ popular-web-designs/
+│  ├─ powerpoint/
 │  ├─ pptx/
+│  ├─ research-paper-writing/
+│  ├─ sketch/
 │  ├─ skill-creator/
-│  ├─ theme-factory/
 │  ├─ webapp-testing/
 │  ├─ web-design-engineer/
 │  ├─ web-video-presentation/
 │  └─ xlsx/
 ├─ docs/
+│  ├─ hermes-skills.md
 │  ├─ official-anthropic-skills.md
 │  └─ skills-inventory.md
 ├─ setup-notes.md
@@ -38,6 +44,7 @@
 - `prompts/github-repo-search.md`：用于让 AI 帮你从 GitHub 筛选 repo。
 - `skills/`：放自定义或可迁移的 skill，尽量保持官方的“独立文件夹 + SKILL.md”结构。
 - `docs/official-anthropic-skills.md`：已同步的官方 Anthropic skills 和安装命令。
+- `docs/hermes-skills.md`：已同步的 Hermes / ClaudSkills skills 和同步命令。
 - `setup-notes.md`：记录迁移、安装和配置注意事项。
 
 ## 迁移原则

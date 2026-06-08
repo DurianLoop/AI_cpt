@@ -13,17 +13,32 @@
 
 来源：<https://github.com/anthropics/skills>
 
-- `brand-guidelines`
-- `claude-api`
 - `docx`
-- `frontend-design`
-- `mcp-builder`
 - `pdf`
 - `pptx`
 - `skill-creator`
-- `theme-factory`
 - `webapp-testing`
 - `xlsx`
+
+## 已同步的 Hermes / ClaudSkills Skills
+
+来源：
+
+- <https://github.com/NousResearch/hermes-agent>
+- <https://claudskills.com/skills/creative-ideation/>
+
+已按用户指定的图片清单同步：
+
+- `humanizer`
+- `claude-design`
+- `sketch`
+- `research-paper-writing`
+- `jupyter-live-kernel`
+- `plan`
+- `powerpoint`
+- `popular-web-designs`
+- `arxiv`
+- `ideation`
 
 ## 官方结构要点
 
