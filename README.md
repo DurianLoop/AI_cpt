@@ -2,34 +2,22 @@
 
 这是我的个人 AI 工作流仓库，用来迁移和管理全局提示词、常用任务模板和 skills。
 
-## 怎么在对话里提醒使用 Skill
+## 核心使用原则
 
-对话时可以直接点名 skill，例如：
+我不需要在每次对话里点名 skill。模型应该先根据任务目标、文件类型、输出形式和上下文，自动判断是否应该使用已有 skill。
 
-```text
-用 humanizer 帮我把这段文字去 AI 味。
-用 arxiv 帮我找几篇相关论文。
-用 plan 先给我写一个执行计划，不要直接开工。
-用 popular-web-designs 参考成熟网站风格做页面。
-用 kb-retriever 从我的知识库里检索答案。
-```
-
-如果不确定该用哪个，可以这样问：
-
-```text
-这件事适合用哪个 skill？先帮我判断，再执行。
-```
+如果某个 skill 明显适配，模型应主动使用；只有在多个 skill 都可能适用且选择会明显影响结果时，才问一个最关键的问题。
 
 ## 全局提示词
 
-- `prompts/global.md`：通用协作提示词，包含“人类-AI 协作版乔哈里视窗模型”。
+- `prompts/global.md`：通用协作提示词，包含“人类-AI 协作版乔哈里视窗模型”和自动选择 skill 的规则。
 - `prompts/github-repo-search.md`：从 GitHub 搜索和筛选 repo 的提示词模板。
 
 ## Skills 清单
 
 ### 写作与表达
 
-- `humanizer`：把文本去 AI 味，改得更自然、更像真人表达。
+- `humanizer`：文本去 AI 味，改得更自然、更像真人表达。
 - `research-paper-writing`：辅助写 ML/AI 论文，包括结构、实验、引用和投稿准备。
 - `docx`：创建、编辑和分析 Word 文档。
 
@@ -47,7 +35,7 @@
 ### 规划与创意
 
 - `plan`：只写计划，不直接执行；适合复杂任务开工前拆解。
-- `ideation`：基于约束生成项目创意，适合“我想做点什么但没方向”。
+- `ideation`：基于约束生成项目创意，适合“想做点什么但没方向”的情况。
 - `skill-creator`：创建、维护和改造自己的 skill。
 
 ### 设计与网页
@@ -64,6 +52,19 @@
 - `powerpoint`：创建、读取和编辑 `.pptx` 演示文稿。
 - `pptx`：Anthropic 官方 PowerPoint 处理 skill。
 - `web-video-presentation`：把文章或口播稿做成点击驱动的网页式视频演示。
+
+## 自动选择参考
+
+- 文本像 AI、需要润色：用 `humanizer`。
+- 找论文、查文献：用 `arxiv`，写论文时结合 `research-paper-writing`。
+- 查本地知识库：用 `kb-retriever`。
+- 做数据分析：用 `jupyter-live-kernel` 或 `xlsx`。
+- 任务复杂、需要拆解：用 `plan`。
+- 没方向、要选题：用 `ideation`。
+- 做网页或视觉原型：用 `web-design-engineer`、`claude-design`、`sketch` 或 `popular-web-designs`。
+- 测网页：用 `webapp-testing`。
+- 做图片：用 `gpt-image-2`。
+- 做演示：用 `powerpoint`、`pptx` 或 `web-video-presentation`。
 
 ## 目录结构
 
