@@ -1,51 +1,80 @@
 # AI Prompts and Skills
 
-这是一个用于迁移和管理个人 AI 工作流资产的仓库，包括全局提示词、常用任务模板、skills 和安装记录。
+这是我的个人 AI 工作流仓库，用来迁移和管理全局提示词、常用任务模板和 skills。
+
+## 怎么在对话里提醒使用 Skill
+
+对话时可以直接点名 skill，例如：
+
+```text
+用 humanizer 帮我把这段文字去 AI 味。
+用 arxiv 帮我找几篇相关论文。
+用 plan 先给我写一个执行计划，不要直接开工。
+用 popular-web-designs 参考成熟网站风格做页面。
+用 kb-retriever 从我的知识库里检索答案。
+```
+
+如果不确定该用哪个，可以这样问：
+
+```text
+这件事适合用哪个 skill？先帮我判断，再执行。
+```
+
+## 全局提示词
+
+- `prompts/global.md`：通用协作提示词，包含“人类-AI 协作版乔哈里视窗模型”。
+- `prompts/github-repo-search.md`：从 GitHub 搜索和筛选 repo 的提示词模板。
+
+## Skills 清单
+
+### 写作与表达
+
+- `humanizer`：把文本去 AI 味，改得更自然、更像真人表达。
+- `research-paper-writing`：辅助写 ML/AI 论文，包括结构、实验、引用和投稿准备。
+- `docx`：创建、编辑和分析 Word 文档。
+
+### 研究与资料
+
+- `arxiv`：按关键词、作者、分类或论文 ID 搜索 arXiv。
+- `kb-retriever`：从本地知识库目录检索信息，适合 PDF、Excel 和大段资料。
+- `pdf`：处理 PDF，包括读取、表单和结构化信息。
+
+### 分析与表格
+
+- `jupyter-live-kernel`：通过 live Jupyter kernel 做迭代 Python 分析。
+- `xlsx`：创建、编辑和分析 Excel 表格。
+
+### 规划与创意
+
+- `plan`：只写计划，不直接执行；适合复杂任务开工前拆解。
+- `ideation`：基于约束生成项目创意，适合“我想做点什么但没方向”。
+- `skill-creator`：创建、维护和改造自己的 skill。
+
+### 设计与网页
+
+- `claude-design`：生成一次性 HTML 设计产物，例如 landing、deck、prototype。
+- `sketch`：快速做 2-3 个 HTML 草图方案，用来比较方向。
+- `popular-web-designs`：参考成熟网站和设计系统生成 HTML/CSS。
+- `web-design-engineer`：构建高质量网页、前端界面、原型和可视化。
+- `webapp-testing`：测试本地网页应用，验证交互和页面行为。
+
+### 图像与演示
+
+- `gpt-image-2`：GPT Image 2 图像生成/编辑提示词与工作流。
+- `powerpoint`：创建、读取和编辑 `.pptx` 演示文稿。
+- `pptx`：Anthropic 官方 PowerPoint 处理 skill。
+- `web-video-presentation`：把文章或口播稿做成点击驱动的网页式视频演示。
 
 ## 目录结构
 
 ```text
 .
 ├─ prompts/
-│  ├─ global.md
-│  └─ github-repo-search.md
 ├─ skills/
-│  ├─ arxiv/
-│  ├─ claude-design/
-│  ├─ docx/
-│  ├─ gpt-image-2/
-│  ├─ humanizer/
-│  ├─ ideation/
-│  ├─ jupyter-live-kernel/
-│  ├─ kb-retriever/
-│  ├─ pdf/
-│  ├─ plan/
-│  ├─ popular-web-designs/
-│  ├─ powerpoint/
-│  ├─ pptx/
-│  ├─ research-paper-writing/
-│  ├─ sketch/
-│  ├─ skill-creator/
-│  ├─ webapp-testing/
-│  ├─ web-design-engineer/
-│  ├─ web-video-presentation/
-│  └─ xlsx/
 ├─ docs/
-│  ├─ hermes-skills.md
-│  ├─ official-anthropic-skills.md
-│  └─ skills-inventory.md
 ├─ setup-notes.md
 └─ README.md
 ```
-
-## 使用方式
-
-- `prompts/global.md`：作为通用全局提示词使用。
-- `prompts/github-repo-search.md`：用于让 AI 帮你从 GitHub 筛选 repo。
-- `skills/`：放自定义或可迁移的 skill，尽量保持官方的“独立文件夹 + SKILL.md”结构。
-- `docs/official-anthropic-skills.md`：已同步的官方 Anthropic skills 和安装命令。
-- `docs/hermes-skills.md`：已同步的 Hermes / ClaudSkills skills 和同步命令。
-- `setup-notes.md`：记录迁移、安装和配置注意事项。
 
 ## 迁移原则
 
