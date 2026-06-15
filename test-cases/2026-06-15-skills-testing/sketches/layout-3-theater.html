@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案 3：沉浸式剧场布局 - LearnHub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .theater-mode {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px 0;
+        }
+
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .chapter-nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .progress-indicator {
+            flex: 1;
+            margin: 0 40px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #0066ff;
+            width: 45%;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .toggle-btn {
+            padding: 16px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-right: none;
+            color: white;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 20px;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .floating-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            bottom: 0;
+            width: 400px;
+            background: #2a2a2a;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .floating-sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .sidebar-tab.active {
+            border-bottom-color: #0066ff;
+            color: white;
+        }
+
+        .sidebar-content {
+            padding: 24px;
+        }
+
+        .chapter-item {
+            padding: 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .chapter-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .chapter-item.active {
+            background: rgba(0,102,255,0.2);
+            border-left-color: #0066ff;
+        }
+
+        .chapter-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .chapter-meta {
+            font-size: 13px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .instructor-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .instructor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .instructor-info h3 {
+            margin-bottom: 4px;
+        }
+
+        .instructor-info p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .comment-item {
+            padding: 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .comment-author {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .course-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .course-header h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .action-btn {
+            padding: 12px 32px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .action-btn.primary {
+            background: #0066ff;
+            border-color: #0066ff;
+        }
+
+        .action-btn.primary:hover {
+            background: #0052cc;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px; text-align: center; color: #999; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <h2>方案 3：沉浸式剧场布局（创新设计）</h2>
+    </div>
+
+    <div class="theater-mode">
+        <div class="video-container">
+            <div class="video-player">▶</div>
+        </div>
+
+        <div class="video-controls">
+            <div class="chapter-nav">
+                <button class="nav-btn">← 上一节</button>
+                <button class="nav-btn">下一节 →</button>
+            </div>
+            <div class="progress-indicator">
+                <div class="progress-text">第 18/40 章节 · 45% 完成</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <div>
+                <button class="nav-btn">⚙️ 设置</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="course-header">
+                <h1>Python 全栈开发从入门到精通</h1>
+                <div class="course-meta">
+                    <span>👨‍💼 张明老师</span>
+                    <span>📚 40 个章节</span>
+                    <span>⏱️ 总时长 15 小时</span>
+                    <span>👥 5000+ 学员</span>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn">📝 笔记</button>
+                    <button class="action-btn">💬 讨论</button>
+                    <button class="action-btn">📄 资料</button>
+                    <button class="action-btn primary">📋 查看大纲</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-toggle">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        </div>
+
+        <div class="floating-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>课程详情</h3>
+                <button onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+            </div>
+
+            <div class="sidebar-tabs">
+                <div class="sidebar-tab active">大纲</div>
+                <div class="sidebar-tab">介绍</div>
+                <div class="sidebar-tab">评论</div>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="info-card instructor-card">
+                    <div class="instructor-avatar">👨‍💼</div>
+                    <div class="instructor-info">
+                        <h3>张明老师</h3>
+                        <p>10年开发经验</p>
+                        <p>5000+ 学员好评</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <h4 style="margin-bottom: 16px;">课程章节</h4>
+
+                    <div class="chapter-item active">
+                        <div class="chapter-title">第1章：Python 基础语法</div>
+                        <div class="chapter-meta">
+                            <span>12 个视频</span>
+                            <span>✓ 已完成</span>
+                        </div>
+                    </div>
+
+                    <div class="chapter-item">
+                        <div class="chapter-title">第2章：面向对象编程</div>
+                        <div class="chapter-meta">
+                            <span>8 个视频</span>
+                            <span>1小时45分</span>
+                        </div>
+                    </div>
+
+                    <div class="chapter-item">
+                        <div class="chapter-title">第3章：Django 框架</div>
+                        <div class="chapter-meta">
+                            <span>15 个视频</span>
+                            <span>3小时20分</span>
+                        </div>
+                    </div>
+
+                    <div class="chapter-item">
+                        <div class="chapter-title">第4章：前端基础</div>
+                        <div class="chapter-meta">
+                            <span>10 个视频</span>
+                            <span>2小时</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <h4 style="margin-bottom: 16px;">最新评论</h4>
+
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">王小明</span>
+                                <span class="comment-time">3天前</span>
+                            </div>
+                            <div class="comment-text">讲解非常清晰，项目实战很有帮助！</div>
+                        </div>
+
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">李华</span>
+                                <span class="comment-time">1周前</span>
+                            </div>
+                            <div class="comment-text">老师讲得很好，跟着做完了所有项目。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // 侧边栏选项卡切换
+        document.querySelectorAll('.sidebar-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 章节点击
+        document.querySelectorAll('.chapter-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.chapter-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

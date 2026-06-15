@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noir Coffee - 精品手工烘焙咖啡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --off-black: #1a1a1a;
+            --white: #fafafa;
+            --off-white: #f5f5f5;
+            --gold: #d4af37;
+            --gold-light: #e8d5a0;
+            --text-secondary: #666666;
+            --border: rgba(10, 10, 10, 0.1);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            line-height: 2;
+            color: var(--text-secondary);
+            max-width: 60ch;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.5)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%231a1a1a"/><circle cx="600" cy="400" r="200" fill="%23333"/></svg>') center/cover;
+            filter: grayscale(100%);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero:hover .hero-image {
+            transform: scale(1.05);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: var(--gold-light);
+            margin-bottom: 4rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold);
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+
+        /* Section Layout */
+        section {
+            padding: clamp(6rem, 15vw, 12rem) clamp(2rem, 5vw, 4rem);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Products Section */
+        .products {
+            background: var(--off-white);
+        }
+
+        .section-intro {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 6rem;
+        }
+
+        .product-card {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--white);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, var(--gold-light));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .product-card:hover .product-image::before {
+            opacity: 0.1;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-origin {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            color: var(--gold);
+            margin-top: 1rem;
+        }
+
+        /* Story Section */
+        .story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .story-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: var(--off-black);
+            position: relative;
+        }
+
+        .story-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--gold);
+            transform: translate(20px, 20px);
+            z-index: -1;
+        }
+
+        .story-content h2 {
+            margin-bottom: 2rem;
+        }
+
+        .story-content p {
+            margin-bottom: 2rem;
+        }
+
+        .signature {
+            font-family: 'Georgia', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--gold);
+            margin-top: 3rem;
+        }
+
+        /* Brewing Guide */
+        .brewing {
+            background: var(--off-white);
+        }
+
+        .brewing-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-top: 6rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            transition: all 0.3s;
+        }
+
+        .step:hover .step-number {
+            background: var(--gold);
+            color: var(--white);
+            transform: rotate(360deg);
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            font-size: 1rem;
+            margin: 0 auto;
+        }
+
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            padding: clamp(8rem, 20vw, 16rem) 2rem;
+        }
+
+        .cta h2 {
+            margin-bottom: 3rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.25rem 3rem;
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid var(--black);
+            background: transparent;
+            color: var(--black);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(10, 10, 10, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--black);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .story {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .story-image::after {
+                transform: translate(10px, 10px);
+            }
+
+            .products-grid {
+                gap: 4rem;
+            }
+
+            .brewing-steps {
+                gap: 3rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-image"></div>
+        <div class="hero-content">
+            <h1>Noir Coffee</h1>
+            <p class="hero-tagline">手工烘焙 · 单一产地</p>
+        </div>
+        <div class="scroll-indicator">向下探索</div>
+    </section>
+
+    <section class="products">
+        <div class="container">
+            <div class="section-intro fade-in">
+                <h2>精选系列</h2>
+                <p style="margin: 0 auto;">每一颗咖啡豆都经过精心挑选，在最佳时刻完成烘焙，只为呈现最纯粹的风味。</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <div class="product-image">☕</div>
+                    <h3 class="product-name">埃塞俄比亚 耶加雪菲</h3>
+                    <p class="product-origin">Ethiopia</p>
+                    <p class="product-price">¥158 / 250g</p>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">☕</div>
+                    <h3 class="product-name">哥伦比亚 翡翠庄园</h3>
+                    <p class="product-origin">Colombia</p>
+                    <p class="product-price">¥188 / 250g</p>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">☕</div>
+                    <h3 class="product-name">肯尼亚 AA级</h3>
+                    <p class="product-origin">Kenya</p>
+                    <p class="product-price">¥168 / 250g</p>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">☕</div>
+                    <h3 class="product-name">巴拿马 艺伎</h3>
+                    <p class="product-origin">Panama</p>
+                    <p class="product-price">¥298 / 250g</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="story">
+            <div class="story-image fade-in"></div>
+            <div class="story-content fade-in">
+                <h2>关于 Noir</h2>
+                <p>Noir Coffee 诞生于对完美咖啡的执着追求。我们相信，最好的咖啡来自对细节的关注和对工艺的尊重。</p>
+                <p>从产地甄选到手工烘焙，每一个步骤都经过反复打磨。我们只选择当季最优质的咖啡豆，在最适合的时间点完成烘焙，确保每一杯咖啡都能呈现出最饱满的风味层次。</p>
+                <p>这不仅仅是一杯咖啡，更是一种生活态度——简单、纯粹、精致。</p>
+                <div class="signature">Noir</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="brewing">
+        <div class="container">
+            <div class="section-intro fade-in">
+                <h2>冲泡指南</h2>
+                <p style="margin: 0 auto;">正确的冲泡方式是释放咖啡风味的关键</p>
+            </div>
+            <div class="brewing-steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>研磨</h3>
+                    <p>使用中度研磨，颗粒大小如海盐。现磨现煮，保持香气。</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>水温</h3>
+                    <p>92-96°C 的水温最适合萃取。过热会产生焦苦味。</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>比例</h3>
+                    <p>推荐 1:15 的粉水比。15g 咖啡粉配 225ml 水。</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <h3>时间</h3>
+                    <p>手冲时间控制在 2-3 分钟。慢慢享受这个过程。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2 class="fade-in">开启你的品质生活</h2>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary fade-in">立即购买</a>
+                <a href="#" class="btn fade-in">了解更多</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Noir Coffee. 用心烘焙每一粒豆子。</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero-content');
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                        hero.style.opacity = 1 - scrolled / 600;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -66,15 +66,37 @@
 - 做图片：用 `gpt-image-2`。
 - 做演示：用 `powerpoint`、`pptx` 或 `web-video-presentation`。
 
+## 测试案例
+
+`test-cases/` 目录包含了完整的 skills 测试案例和结果，可用于：
+- 学习如何使用各个 skills
+- 了解 skills 的能力边界
+- 作为新环境配置后的验证基准
+- 参考实际使用场景和最佳实践
+
+**最新测试**: [2026-06-15 Skills 测试](test-cases/README.md)
+- 已测试 8/20 skills (40%)
+- 包含 15+ 个完整测试案例
+- 综合评分 ⭐⭐⭐⭐⭐ (5/5)
+- 效率提升 5-25 倍
+
+详细内容：
+- 8 个 skills 的深度测试结果
+- 真实复杂场景的完整示例
+- 可交互的 HTML 原型和设计作品
+- 详细的对比分析和使用建议
+- ROI 分析（投资回报率 1,500% - 5,000%）
+
 ## 目录结构
 
 ```text
 .
-├─ prompts/
-├─ skills/
-├─ docs/
-├─ setup-notes.md
-└─ README.md
+├─ prompts/          # 全局提示词
+├─ skills/           # 20 个自定义 skills
+├─ docs/             # 文档和说明
+├─ test-cases/       # 测试案例和结果
+├─ setup-notes.md    # 配置说明
+└─ README.md         # 本文件
 ```
 
 ## 迁移原则
