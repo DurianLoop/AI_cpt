@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "OnSessionEnd": {
+      "command": "python",
+      "args": ["enhancements/hooks/on_session_end.py", "${SESSION_TRANSCRIPT}"],
+      "description": "自动编译记忆和提取 Instincts"
+    }
+  },
+  "settings": {
+    "enhancements": {
+      "instincts": {
+        "enabled": true,
+        "auto_extract": true,
+        "min_confidence_to_apply": 0.7
+      },
+      "memory_compiler": {
+        "enabled": true,
+        "auto_run_on_session_end": true
+      },
+      "verification": {
+        "enabled": true,
+        "hash_check_important_files": true
+      }
+    }
+  }
+}

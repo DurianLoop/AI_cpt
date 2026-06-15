@@ -2,6 +2,27 @@
 
 这是我的个人 AI 工作流仓库，用来迁移和管理全局提示词、常用任务模板和 skills。
 
+**🆕 v2.0 更新**：集成了 ECC、claude-memory-compiler 和 hex-line 的核心功能，实现了自动学习、记忆编译和哈希验证机制。
+
+## 核心特性
+
+### ✨ 三大增强系统
+
+1. **Instincts 学习系统** (基于 ECC)
+   - 原子级学习单元，自动从会话中提取
+   - 置信度评分机制 (0.3-0.9)
+   - 高置信度 Instincts 自动进化为 Skills
+
+2. **Memory Compiler** (基于 claude-memory-compiler)
+   - Context Engineering：语义理解，不只是关键词匹配
+   - 自动提取、合成和组织记忆
+   - 建立交叉引用，突破 200 行限制
+
+3. **哈希验证机制** (基于 hex-line)
+   - 编辑前后的 SHA-256 验证
+   - 自动回滚保护
+   - 审计日志追踪
+
 ## 核心使用原则
 
 我不需要在每次对话里点名 skill。模型应该先根据任务目标、文件类型、输出形式和上下文，自动判断是否应该使用已有 skill。
@@ -91,12 +112,76 @@
 
 ```text
 .
-├─ prompts/          # 全局提示词
-├─ skills/           # 20 个自定义 skills
-├─ docs/             # 文档和说明
-├─ test-cases/       # 测试案例和结果
-├─ setup-notes.md    # 配置说明
-└─ README.md         # 本文件
+├─ prompts/                  # 全局提示词
+├─ skills/                   # 20 个自定义 skills
+├─ docs/                     # 文档和说明
+├─ test-cases/               # 测试案例和结果
+├─ enhancements/             # 🆕 增强系统
+│  ├─ instincts/             # Instincts 学习系统
+│  │  ├─ README.md           # 使用说明
+│  │  ├─ manager.py          # Instinct 管理器
+│  │  └─ data/               # Instincts 数据存储
+│  ├─ memory-compiler/       # Context Engineering 记忆编译器
+│  │  └─ compiler.py         # 自动提取和组织记忆
+│  ├─ verification/          # 哈希验证系统
+│  │  ├─ verified_editor.py  # 验证编辑器
+│  │  └─ audit/              # 审计日志
+│  ├─ hooks/                 # 自动化 Hooks
+│  │  └─ on_session_end.py   # 会话结束触发器
+│  └─ config.json            # 增强系统配置
+├─ setup-notes.md            # 配置说明
+└─ README.md                 # 本文件
+```
+
+## 快速开始
+
+### 1. 启用 Instincts 系统
+
+```bash
+# 列出所有 Instincts
+python enhancements/instincts/manager.py list
+
+# 添加新 Instinct
+python enhancements/instincts/manager.py add "git-style" "用简短的 commit message"
+
+# 验证 Instinct（提升置信度）
+python enhancements/instincts/manager.py verify "git-style" success
+```
+
+### 2. 启用 Memory Compiler
+
+```bash
+# 手动编译记忆
+python enhancements/memory-compiler/compiler.py
+
+# 配置自动触发（在 .claude/settings.json 中添加）
+{
+  "hooks": {
+    "OnSessionEnd": {
+      "command": "python",
+      "args": ["enhancements/hooks/on_session_end.py"]
+    }
+  }
+}
+```
+
+### 3. 使用哈希验证
+
+```python
+from enhancements.verification.verified_editor import VerifiedEditor
+
+editor = VerifiedEditor()
+
+# 获取文件哈希
+file_hash = editor.get_file_hash("important.py")
+
+# 执行验证编辑
+success, message = editor.verified_edit(
+    "important.py",
+    old_content="...",
+    new_content="..."
+)
+print(message)
 ```
 
 ## 迁移原则
